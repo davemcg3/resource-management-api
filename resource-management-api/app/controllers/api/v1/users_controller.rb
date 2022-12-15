@@ -1,10 +1,11 @@
 class Api::V1::UsersController < ApplicationController
   def register
+    @errors = ''
     @user = User.create(user_params)
-    if @user
+    if @user.id.present?
       render json: { user: @user }, status: :created
     else
-      render json: { error: 'Unable to create user' }, status: :unprocessable_entity
+      render json: { error: "Unable to create user: #{@user.errors.full_messages_for(:email).join(', ')}" }, status: :unprocessable_entity
     end
   end
 
