@@ -3,10 +3,6 @@ require 'rails_helper'
 module Api
   module V1
     describe UsersController, type: :controller do
-      before do
-
-      end
-
       describe "Register user" do
         it 'return a successful registration if user saved with valid credentials' do
           expect { post :register, params: { user: { email: Faker::Internet.email, password: Faker::Internet.password } } }.to change(User, :count).by(1)
@@ -30,6 +26,19 @@ module Api
             expect { post :register, params: { user: param } }.not_to change(User, :count)
             expect(response).to have_http_status :unprocessable_entity
           end
+        end
+      end
+
+      describe "Forget User" do
+        it 'does not allow an unauthenticated user to be forgotten' do
+          expect { post :forget, params: { user: { email: nil } } }.not_to change(User, :count)
+          expect(response).to have_http_status :unauthorized
+        end
+
+        it 'allows an authenticated user to be forgotten' do
+          user = create(:user)
+          expect { post :forget, params: { user: { email: user.email, password: user.password } } }.to change(User, :count).by(-1)
+          expect(response).to have_http_status :ok
         end
       end
     end

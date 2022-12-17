@@ -12,9 +12,12 @@ class Api::V1::UsersController < ApplicationController
   # for GDPR purposes, should require authentication
   def forget
     if authenticate_user
+      # TODO: Add rule checking for permission to destroy
+      # TODO: accept a user parameter too
       if @user.destroy
         render json: { user: 'User deleted' }, status: :ok
       else
+        # not sure how to test this code path, maybe with a freeze?
         render json: { error: 'Unable to delete user' }, status: :unprocessable_entity
       end
     else
@@ -24,6 +27,8 @@ class Api::V1::UsersController < ApplicationController
 
   # verify user credentials
   def authenticate_user
+    # TODO Add token authentication method checking
+    # TODO: @user assignment should be in a set_user function
     @user = User.find_by(email: user_params[:email])
     return true if (@user && @user.authenticate(user_params[:password]))
     false

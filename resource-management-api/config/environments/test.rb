@@ -50,4 +50,7 @@ Rails.application.configure do
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
+
+  # Because Capybara tries to access www.example.com (either in request / feature specs).
+  config.hosts << "www.example.com"
 end

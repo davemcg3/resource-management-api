@@ -3,7 +3,7 @@ require_relative 'support/factory_bot'
 require_relative 'support/chrome'
 require 'spec_helper'
 
-ENV['RAILS_ENV'] ||= 'test'
+ENV['RAILS_ENV'] = 'test'
 require_relative '../config/environment'
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
