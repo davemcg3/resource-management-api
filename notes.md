@@ -150,7 +150,7 @@ Additional Info
     		generate data with faker: https://fakerjs.dev/api/internet.html#password
     		test model validation: https://til.hashrocket.com/posts/af87b1eaa8-test-validation-errors-with-rspec
     		error messages: https://medium.com/@rfleury2/a-quick-guide-to-model-errors-in-rails-965e2be3ac93
-    		bundle exec rspec spec/system/user_actions_spec.rb
+    		bundle exec rspec spec/system/profile_actions_spec.rb
     	Building API
         Authenticating - Normally I would use devise for user authentication but for an API-only app it feels like overkill.
     	Serializing API Output

@@ -10,9 +10,33 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_15_220813) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_19_212820) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "organizations", force: :cascade do |t|
+    t.string "name"
+  end
+
+  create_table "profiles", force: :cascade do |t|
+    t.bigint "organization_id", null: false
+    t.string "name"
+    t.string "email"
+    t.string "phone"
+    t.bigint "workgroup_id", null: false
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_profiles_on_organization_id"
+    t.index ["workgroup_id"], name: "index_profiles_on_workgroup_id"
+  end
+
+  create_table "profiles_users", id: false, force: :cascade do |t|
+    t.bigint "profile_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["profile_id", "user_id"], name: "index_profiles_users_on_profile_id_and_user_id"
+    t.index ["user_id", "profile_id"], name: "index_profiles_users_on_user_id_and_profile_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email"
@@ -27,4 +51,10 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_15_220813) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  create_table "workgroups", force: :cascade do |t|
+    t.string "name"
+  end
+
+  add_foreign_key "profiles", "organizations"
+  add_foreign_key "profiles", "workgroups"
 end
